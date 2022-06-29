@@ -7,9 +7,6 @@ namespace Statii_Incarcare.Models.Db
 {
     public partial class StatiiIncarcareContext : DbContext
     {
-        public StatiiIncarcareContext()
-        {
-        }
 
         public StatiiIncarcareContext(DbContextOptions<StatiiIncarcareContext> options)
             : base(options)
@@ -26,7 +23,7 @@ namespace Statii_Incarcare.Models.Db
         {
             if (!optionsBuilder.IsConfigured)
             {
-              // optionsBuilder.UseSqlServer("Server=KOKI\\SQLEXPRESS;Database=StatiiIncarcare;Trusted_Connection=True;");
+            //   optionsBuilder.UseSqlServer("Server=KOKI\\SQLEXPRESS;Database=StatiiIncarcare;Trusted_Connection=True;");
             }
         }
 

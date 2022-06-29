@@ -9,7 +9,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<StatiiIncarcareContext>(options =>
 {
-    options.UseSqlServer(connection);
+      options.UseSqlServer(connection);
 });
 
 var app = builder.Build();
@@ -32,8 +32,5 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Statii}/{action=Index}/{id?}");
 
 app.Run();
