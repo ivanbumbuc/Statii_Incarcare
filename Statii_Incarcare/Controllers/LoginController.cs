@@ -64,10 +64,24 @@ namespace Statii_Incarcare.Controllers
             return View("~/Views/Login/Index.cshtml");
         }
 
-        [HttpPost]
-        public IActionResult CreareCont(Utilizatori utilizator)
+        public IActionResult CreareCont()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreareCont2( Utilizatori utilizator)
+        {
+            if (ModelState.IsValid)
+            {
+                utilizator.UtilizatorId = Guid.NewGuid();
+                _context.Add(utilizator);
+                _context.SaveChangesAsync();
+                CookieOptions cookieOptions = new CookieOptions();
+                cookieOptions.Expires = new DateTimeOffset(DateTime.Now.AddDays(1));
+                HttpContext.Response.Cookies.Append("user_id", utilizator.UtilizatorId.ToString(), cookieOptions);
+            }
+            return View("Logat", utilizator);
         }
 
     }
