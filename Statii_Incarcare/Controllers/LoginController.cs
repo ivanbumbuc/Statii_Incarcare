@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Statii_Incarcare.Models.Db;
 
 namespace Statii_Incarcare.Controllers
@@ -11,27 +12,64 @@ namespace Statii_Incarcare.Controllers
         {
             _context = context;
         }
+
         public IActionResult Index()
         {
-            return View();
+            var userId = HttpContext.Request.Cookies["user_id"];
+            if (userId != null)
+            {
+                var user = _context.Utilizatoris.FirstOrDefault(x => x.UtilizatorId.ToString()==userId);
+                return View("Logat", user);
+            }
+            else
+                return View();
         }
-      
 
         [HttpPost]
         public IActionResult Login(Utilizatori utilizatori)
         {
-            var user = _context.Utilizatoris.FirstOrDefault(x => x.Email == utilizatori.Email && x.Parola == utilizatori.Parola);
-
-
-            if (user!=null)
+            var userId = HttpContext.Request.Cookies["user_id"];
+            if (userId != null)
             {
-                Console.WriteLine("Exista contul!!");
-            }    
+                var user = _context.Utilizatoris.FirstOrDefault(x => x.UtilizatorId.ToString() == userId);
+                return View("Logat", user);
+            }
             else
             {
-                Console.WriteLine("Nu exista conutul!");
+                var user = _context.Utilizatoris.FirstOrDefault(x => x.Email == utilizatori.Email && x.Parola == utilizatori.Parola);
+
+
+                if (user != null)
+                {
+                    CookieOptions cookieOptions = new CookieOptions();
+                    cookieOptions.Expires = new DateTimeOffset(DateTime.Now.AddDays(1));
+                    HttpContext.Response.Cookies.Append("user_id", user.UtilizatorId.ToString(), cookieOptions);
+                    return View("Logat", user);
+                }
+                else
+                {
+                    ViewData["Verificare"] = "Parola incorecta!";
+                }
             }
-            return null;
+            return View("Index");
         }
+        
+        public IActionResult Deconectare()
+        {
+            var userId = HttpContext.Request.Cookies["user_id"];
+            if (userId != null)
+            {
+                HttpContext.Response.Cookies.Delete("user_id");
+            }
+            return View("~/Views/Login/Index.cshtml");
+        }
+
+        [HttpPost]
+        public IActionResult CreareCont(Utilizatori utilizator)
+        {
+            return View();
+        }
+
     }
+
 }
