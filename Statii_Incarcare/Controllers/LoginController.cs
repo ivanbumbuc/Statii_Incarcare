@@ -15,10 +15,11 @@ namespace Statii_Incarcare.Controllers
 
         public IActionResult Index()
         {
+           
             var userId = HttpContext.Request.Cookies["user_id"];
             if (userId != null)
             {
-                var user = _context.Utilizatoris.FirstOrDefault(x => x.UtilizatorId.ToString()==userId);
+                var user = _context.Utilizatoris.FirstOrDefault(x => x.UtilizatorId.ToString() == userId);
                 return View("Logat", user);
             }
             else
@@ -70,13 +71,18 @@ namespace Statii_Incarcare.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreareCont2( Utilizatori utilizator)
+        public async Task<IActionResult> CreareCont2( Utilizatori utilizator)
         {
+            if(utilizator==null || utilizator.Nume==null || utilizator.Email==null || utilizator.Parola==null)
+            {
+                ViewData["avertisment"] = "Introduceti toate datele!";
+                return View("CreareCont");
+            }
             if (ModelState.IsValid)
             {
                 utilizator.UtilizatorId = Guid.NewGuid();
                 _context.Add(utilizator);
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
                 CookieOptions cookieOptions = new CookieOptions();
                 cookieOptions.Expires = new DateTimeOffset(DateTime.Now.AddDays(1));
                 HttpContext.Response.Cookies.Append("user_id", utilizator.UtilizatorId.ToString(), cookieOptions);

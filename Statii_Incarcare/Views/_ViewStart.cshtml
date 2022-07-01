@@ -1,3 +1,7 @@
 ﻿@{
-    Layout = "_Layout";
+    if (ViewData["layout"]==null || ViewData["layout"]=="1")
+        Layout = "_Layout";
+    else
+        Layout = "_Layout2";
+      //  Layout = "_Layout";
 }

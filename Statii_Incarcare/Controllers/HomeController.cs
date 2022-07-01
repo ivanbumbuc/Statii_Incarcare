@@ -15,6 +15,15 @@ namespace Statii_Incarcare.Controllers
 
         public IActionResult Index()
         {
+
+            ViewData["layout"] = "1";
+            if (HttpContext.Request.Cookies.ContainsKey("user_id"))
+            {
+                var userId = HttpContext.Request.Cookies["user_id"];
+
+                if (userId != null)
+                    ViewData["layout"]="2";
+            }
             return View();
         }
 
