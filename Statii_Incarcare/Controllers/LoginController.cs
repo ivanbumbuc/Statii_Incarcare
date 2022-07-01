@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Statii_Incarcare.Models.Db;
+using System.Text.RegularExpressions;
 
 namespace Statii_Incarcare.Controllers
 {
@@ -78,6 +79,22 @@ namespace Statii_Incarcare.Controllers
                 ViewData["avertisment"] = "Introduceti toate datele!";
                 return View("CreareCont");
             }
+            Regex regex = new Regex(@"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$",
+            RegexOptions.CultureInvariant | RegexOptions.Singleline);
+            bool isValidEmail = regex.IsMatch(utilizator.Email.ToString());
+            var userEmail = _context.Utilizatoris.FirstOrDefault(x => x.Email == utilizator.Email);
+            if(userEmail != null)
+            {
+                ViewData["avertisment"] = "Acest email este folosit la un cont existent, introduceti un email valid!";
+                return View("CreareCont");
+            }
+
+            if (!isValidEmail)
+            {
+                ViewData["avertisment"] = "Email invalid!";
+                return View("CreareCont");
+            }
+
             if (ModelState.IsValid)
             {
                 utilizator.UtilizatorId = Guid.NewGuid();

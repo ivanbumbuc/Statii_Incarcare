@@ -18,9 +18,20 @@ namespace Statii_Incarcare.Controllers
             _context = context;
         }
 
+        private bool Verificare()
+        {
+            var userId = HttpContext.Request.Cookies["user_id"];
+            if (userId == null)
+            {
+                return true;
+            }
+            return false;
+        }
         // GET: Statii
         public async Task<IActionResult> Index()
         {
+            if (Verificare())
+                return NotFound();
             return _context.Statiis != null ?
                         View(await _context.Statiis.ToListAsync()) :
                         Problem("Entity set 'StatiiIncarcareContext.Statiis'  is null.");
@@ -29,6 +40,9 @@ namespace Statii_Incarcare.Controllers
         // GET: Statii/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (Verificare())
+                return NotFound();
+
             if (id == null || _context.Statiis == null)
             {
                 return NotFound();
@@ -47,6 +61,8 @@ namespace Statii_Incarcare.Controllers
         // GET: Statii/Create
         public IActionResult Create()
         {
+            if (Verificare())
+                return NotFound();
             return View();
         }
 
@@ -57,6 +73,8 @@ namespace Statii_Incarcare.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("StatieId,Nume,Oras,Adresa")] Statii statii)
         {
+            if (Verificare())
+                return NotFound();
             if (ModelState.IsValid)
             {
                 _context.Add(statii);
@@ -69,6 +87,8 @@ namespace Statii_Incarcare.Controllers
         // GET: Statii/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (Verificare())
+                return NotFound();
             if (id == null || _context.Statiis == null)
             {
                 return NotFound();
@@ -89,6 +109,8 @@ namespace Statii_Incarcare.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("StatieId,Nume,Oras,Adresa")] Statii statii)
         {
+            if (Verificare())
+                return NotFound();
             if (id != statii.StatieId)
             {
                 return NotFound();
@@ -120,6 +142,8 @@ namespace Statii_Incarcare.Controllers
         // GET: Statii/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (Verificare())
+                return NotFound();
             if (id == null || _context.Statiis == null)
             {
                 return NotFound();
@@ -140,6 +164,8 @@ namespace Statii_Incarcare.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (Verificare())
+                return NotFound();
             if (_context.Statiis == null)
             {
                 return Problem("Entity set 'StatiiIncarcareContext.Statiis'  is null.");
