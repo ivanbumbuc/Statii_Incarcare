@@ -27,9 +27,28 @@ namespace Statii_Incarcare.Controllers
             }
             return false;
         }
+
+        private List<InformatiePriza> Prize(int? id)
+        {
+            var statii = _context.Statiis.Join(_context.Prizes, a => a.StatieId,
+                b => b.StatieId, (a, b) => new { Prizaid = b.PrizaId }).Select(x => x.Prizaid);
+
+            var d = (from s in _context.Statiis
+                     join p in _context.Prizes
+                     on s.StatieId equals p.StatieId join t in _context.Tips on p.TipId equals t.TipId
+                     where (s.StatieId == id)
+                     select new InformatiePriza
+                     {
+                         NumarPriza = p.PrizaId, Tip = t.Nume
+                     }
+                     ).ToList();
+            return d;
+        }
+
         // GET: Statii
         public async Task<IActionResult> Index()
         {
+                Console.WriteLine("null");
             if (Verificare())
                 return NotFound();
             return _context.Statiis != null ?
@@ -54,8 +73,8 @@ namespace Statii_Incarcare.Controllers
             {
                 return NotFound();
             }
-
-            return View(statii);
+            var x = new Detalii { statii = statii, InformatiiPrize = Prize(id) };
+            return View(x);
         }
 
         // GET: Statii/Create

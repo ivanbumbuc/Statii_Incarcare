@@ -1,5 +1,4 @@
-﻿@model Statii_Incarcare.Models.Db.Statii
-
+﻿@model Statii_Incarcare.Models.Db.Detalii
 @{
     ViewData["Title"] = "Detalii";
     Layout = "_Layout";
@@ -8,30 +7,58 @@
 <h1>Detalii</h1>
 
 <div>
-    <h4>Statie</h4>
+    <h4>Informatii Statie</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nume)
+            @Html.DisplayNameFor(model => model.statii.Nume)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nume)
+            @Html.DisplayFor(model => model.statii.Nume)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Oras)
+            @Html.DisplayNameFor(model => model.statii.Oras)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Oras)
+            @Html.DisplayFor(model => model.statii.Oras)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Adresa)
+            @Html.DisplayNameFor(model => model.statii.Adresa)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Adresa)
+            @Html.DisplayFor(model => model.statii.Adresa)
         </dd>
     </dl>
+   
+    <hr />
+    <h4>Prize Statiei</h4>
+   <table class="table" style="width: 30%;text-align:left;">
+    <thead>
+        <tr>
+            <th>
+               Numar Priza
+            </th>
+            <th>
+                Tip
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.InformatiiPrize) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumarPriza)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tip)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.StatieId">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.statii.StatieId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

@@ -1,0 +1,23 @@
+﻿@{
+     ViewData["Title"] = "Rezervare";
+    Layout = "_Layout";
+}
+
+@using (Html.BeginForm("CategoryChosen", "Rezervare", FormMethod.Get))
+    {
+
+        <fieldset >
+
+            Oras
+
+            @Html.DropDownList("Orase")
+
+        <p>
+
+            <input type="submit" value="Submit" />
+
+        </p>
+
+    </fieldset>
+
+}
