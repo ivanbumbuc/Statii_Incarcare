@@ -1,0 +1,24 @@
+﻿@model Statii_Incarcare.Models.ModelPriza
+@{
+     ViewData["Title"] = "Rezervare";
+    Layout = "_Layout";
+}
+
+<div class="col-md-4">
+        <form asp-controller="AgdaugarePrize" asp-action="Add" method="post" >
+            
+            <div class="form-group">
+                <label asp-for="tipuri" class="control-label"></label>
+                <select asp-for="tipuri" class="form-control" />
+                <option value="-">Selecteaza Tipul</option>
+            @foreach (var item in Model.tipuri)
+            {
+                <option value="@item.TipId">@item.Nume</option>
+            }
+        </div>
+            <input readonly asp-for="@Model.StatieId" hidden = true />
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>

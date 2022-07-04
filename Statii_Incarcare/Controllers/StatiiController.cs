@@ -17,7 +17,7 @@ namespace Statii_Incarcare.Controllers
         {
             _context = context;
         }
-
+        private static int? idStatie;
         private bool Verificare()
         {
             var userId = HttpContext.Request.Cookies["user_id"];
@@ -30,16 +30,23 @@ namespace Statii_Incarcare.Controllers
 
         private List<InformatiePriza> Prize(int? id)
         {
-            var statii = _context.Statiis.Join(_context.Prizes, a => a.StatieId,
+            /*var statii = _context.Statiis.Join(_context.Prizes, a => a.StatieId,
                 b => b.StatieId, (a, b) => new { Prizaid = b.PrizaId }).Select(x => x.Prizaid);
+            */
+          /*  var d1 = _context.Statiis
+                .Include(x=> x.Prizes)
+                .ThenInclude(x=> x.Tip)
+                .FirstOrDefault(x => x.StatieId == id);*/
 
             var d = (from s in _context.Statiis
                      join p in _context.Prizes
-                     on s.StatieId equals p.StatieId join t in _context.Tips on p.TipId equals t.TipId
+                     on s.StatieId equals p.StatieId
+                     join t in _context.Tips on p.TipId equals t.TipId
                      where (s.StatieId == id)
                      select new InformatiePriza
                      {
-                         NumarPriza = p.PrizaId, Tip = t.Nume
+                         NumarPriza = p.PrizaId,
+                         Tip = t.Nume
                      }
                      ).ToList();
             return d;
@@ -74,7 +81,12 @@ namespace Statii_Incarcare.Controllers
                 return NotFound();
             }
             var x = new Detalii { statii = statii, InformatiiPrize = Prize(id) };
+            
             return View(x);
+        }
+        public IActionResult AddPriza(int? id)
+        {
+            return RedirectToAction("Index", "AdaugarePrize", new { id = id.Value });
         }
 
         // GET: Statii/Create
