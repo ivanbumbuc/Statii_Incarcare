@@ -3,21 +3,211 @@
     Layout = "_Layout";
 }
 
-@using (Html.BeginForm("CategoryChosen", "Rezervare", FormMethod.Get))
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<h3 style="margin-left:450px;">Rezervare Priza</h3>
+<br />
+<div class="container" >
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+            <form style="align-content:left;">
+                <div class="form-group">
+                    <label class="control-label">Oras</label>
+                    <select id="liOras" class="form-control" asp-items="@(new SelectList(ViewBag.Orase,"Value","Text"))"></select>
+                </div>
+                 <br />
+                <div class="form-group">
+                    <label class="control-label">Adresa</label>
+                    <select id="liAdresa" class="form-control" asp-items="@(new SelectList(string.Empty, "Value", "Text"))"></select>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="control-label">Statie</label>
+                    <select id="liStatii" class="form-control" asp-items="@(new SelectList(string.Empty, "Value", "Text"))"></select>
+                </div>
+                <br />
+                 <div class="form-group">
+                    <label class="control-label">Priza</label>
+                    <select id="liPrize" class="form-control" asp-items="@(new SelectList(string.Empty, "Value", "Text"))"></select>
+                </div>
+                <br />
+                 <div class="form-group">
+                    <label class="control-label">Data</label>
+                    <input type="date" id="dataRezervare" name="dataR">
+                </div>
+                <br />
+                 <div class="form-group">
+                    <label class="control-label">Start Ora</label>
+                    <select style="width:50%;" id="liStart" class="form-control" asp-items="@(new SelectList(string.Empty, "Value", "Text"))"></select>
+                </div>
+                <br />
+                 <div class="form-group">
+                    <label class="control-label">End Ora</label>
+                    <select style="width:53%;" id="liSfarsit" class="form-control" asp-items="@(new SelectList(string.Empty, "Value", "Text"))"></select>
+                </div>
+            </form>
+            <br />
+                <button type="button" class="btn btn-primary" style="margin-left:150px;" onclick="rezerva()">Rezerva</button>
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+</div>
+
+<script>
+    function rezerva()
     {
+        if ($("#liAdresa").val() != "" && $("#liStatii").val() != "" && $("#liPrize").val() && $("#liStart").val() != "" && $("#liSfarsit").val() != "" && $("#dataRezervare").val())
+            $.getJSON("/Rezervare/CreareRezervare",
+                {
+                    oras: $("#liOras option:selected").text(),
+                    adresa: $("#liAdresa option:selected").text(),
+                    priza: $("#liPrize").val(),
+                    data: $("#dataRezervare").val(),
+                    oi: $("#liStart").val(),
+                    of: $("#liSfarsit").val()
+                }, function(d) {
+                    $("#liAdresa").empty();
+                    $("#liStatii").empty();
+                    $("#liPrize").empty();
+                    $("#liStart").empty();
+                    $("#liSfarsit").empty();
+                    alert("Rezervarea a fost realizata!");
+                })
+        else
+            alert("Completati toate datele!");
+    }
+   
+$(function() {
 
-        <fieldset >
+    $("#liOras").change(function() {
+        // alert("hello");
+        $.getJSON("/Rezervare/GetAdrese", { oras: $("#liOras").val() }, function(d) {
+            var row = "";
+            $("#liAdresa").empty();
+            $("#liStatii").empty();
+            $("#liPrize").empty();
+            $("#liStart").empty();
+            $("#liSfarsit").empty();
+            $.each(d, function(i, v) {
+                row += "<option value=" + v.value + ">" + v.text + "</option>";
+            });
+            $("#liAdresa").html(row);
+        })
+    });
+    $("#liAdresa").change(function() {
+        // alert($( "#liAdresa option:selected" ).text());
+        $.getJSON("/Rezervare/GetStatii",
+            {
+                oras:  $( "#liOras option:selected" ).text(),
+                adresa: $( "#liAdresa option:selected" ).text()
+            }, function(d) {
+                var row = "";
+                $("#liStatii").empty();
+                $("#liPrize").empty();
+                $("#liStart").empty();
+                $("#liSfarsit").empty();
+                $.each(d, function(i, v) {
+                    row += "<option value=" + v.value + ">" + v.text + "</option>";
+                });
+                $("#liStatii").html(row);
+            })
+    });
+    $("#liStatii").change(function() {
+        // alert($( "#liAdresa option:selected" ).text());
+        $.getJSON("/Rezervare/GetPrize",
+            {
+                id: $("#liStatii").val()
+            }, function(d) {
+                var row = "";
+                $("#liPrize").empty();
+                $("#liStart").empty();
+                $("#liSfarsit").empty();
+                $.each(d, function(i, v) {
+                    row += "<option value=" + v.value + ">" + v.text + "</option>";
+                });
+                $("#liPrize").html(row);
+            })
+    });
+    $("#dataRezervare").change(function() {
+        var x = new Date().toLocaleDateString();
+        var y = new Date().toLocaleDateString().split("/");
+        var w = $("#dataRezervare").val().split("-");
+        dataR(w, y);
+        if ($("#dataRezervare").val() != "") {
+            $.getJSON("/Rezervare/GetOre",
+            {
+                id: $("#dataRezervare").val()
+            }, function(d) {
+                var row = "";
+                $("#liStart").empty();
+                $("#liSfarsit").empty();
+                $.each(d, function(i, v) {
+                    row += "<option value=" + v.value + ">" + v.text + "</option>";
+                });
+                $("#liStart").html(row);
+            })
+        }
+        else
+        {
+            $("#liStart").empty();
+        }
+    });
+    $("#liStart").change(function() {
+        $.getJSON("/Rezervare/GetOreSfarsit",
+            {
+            }, function(d) {
+                var row = "";
+                $("#liSfarsit").empty();
+                $.each(d, function(i, v) {
+                    row += "<option value=" + v.value + ">" + v.text + "</option>";
+                });
+                $("#liSfarsit").html(row);
+            })
+    });
+    $("#liSfarsit").change(function() {
+        if (parseInt($("#liStart").val()) >= parseInt($("#liSfarsit").val())) { 
+            alert("Selectati un interval valid!");
+            $("#liSfarsit").empty();
+        $.getJSON("/Rezervare/GetOreSfarsit",
+            {
+            }, function(d) {
+                var row = "";
+                $("#liSfarsit").empty();
+                $.each(d, function(i, v) {
+                    row += "<option value=" + v.value + ">" + v.text + "</option>";
+                });
+                $("#liSfarsit").html(row);
+            })
+    }
+    });
+    
+    
+    function dataR(w,y)
+    {
+        if (parseInt(w[0]) < parseInt(y[2]))
+            {
+              alert("Selectati o data valida!");
+              $("#dataRezervare").val("");
+            }
+        else
+            if (parseInt(w[0]) == parseInt(y[2])) {
+                if (parseInt(w[1]) < parseInt(y[0]))
+                    {
+                       alert("Selectati o data valida!");
+                       $("#dataRezervare").val("");
+                    }
+                else
+                    if (parseInt(w[1]) == parseInt(y[0])) {
+                        if (parseInt(w[2]) < parseInt(y[1])) {
+                            alert("Selectati o data valida!");
+                           $("#dataRezervare").val("");
+                        }
+                    }
 
-            Oras
+            }
+    }
+});
+</script>
 
-            @Html.DropDownList("Orase")
 
-        <p>
 
-            <input type="submit" value="Submit" />
-
-        </p>
-
-    </fieldset>
-
-}
