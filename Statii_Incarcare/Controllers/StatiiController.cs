@@ -18,6 +18,19 @@ namespace Statii_Incarcare.Controllers
             _context = context;
         }
         private static int? idStatie;
+
+        [HttpGet]
+        public  async Task<IActionResult> Cautare(string s)
+        {
+            ViewData["Search"] = s;
+            if (!String.IsNullOrEmpty(s))
+            {
+                var d = _context.Statiis.Where(x => x.Nume.Contains(s) || x.Oras.Contains(s) || x.Adresa.Contains(s));
+                return View("Index",await d.ToListAsync());
+            }
+            return View("Index",await _context.Statiis.ToListAsync());
+        }
+
         private bool Verificare()
         {
             var userId = HttpContext.Request.Cookies["user_id"];
@@ -55,7 +68,6 @@ namespace Statii_Incarcare.Controllers
         // GET: Statii
         public async Task<IActionResult> Index()
         {
-                Console.WriteLine("null");
             if (Verificare())
                 return NotFound();
             return _context.Statiis != null ?
