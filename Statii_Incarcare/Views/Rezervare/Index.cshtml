@@ -45,6 +45,11 @@
                     <label class="control-label">End Ora</label>
                     <select style="width:53%;" id="liSfarsit" class="form-control" asp-items="@(new SelectList(string.Empty, "Value", "Text"))"></select>
                 </div>
+                <br />
+                 <div class="form-group">
+                    <label class="control-label">Numar Masina</label>
+                   <input id="nrMasina" class="form-control" />            
+               </div>
             </form>
             <br />
                 <button type="button" class="btn btn-primary" style="margin-left:150px;" onclick="rezerva()">Rezerva</button>
@@ -56,21 +61,21 @@
 <script>
     function rezerva()
     {
-        if ($("#liAdresa").val() != "" && $("#liStatii").val() != "" && $("#liPrize").val() && $("#liStart").val() != "" && $("#liSfarsit").val() != "" && $("#dataRezervare").val())
+        if ($("#liAdresa").val() != "" && $("#liStatii").val() != "" && $("#liPrize").val() && $("#liStart").val() != "" && $("#liSfarsit").val() != "" && $("#dataRezervare").val() && $("#nrMasina").val() != "")
             $.getJSON("/Rezervare/CreareRezervare",
                 {
-                    oras: $("#liOras option:selected").text(),
-                    adresa: $("#liAdresa option:selected").text(),
                     priza: $("#liPrize").val(),
                     data: $("#dataRezervare").val(),
                     oi: $("#liStart").val(),
-                    of: $("#liSfarsit").val()
+                    of: $("#liSfarsit").val(),
+                    masina: $("#nrMasina").val()
                 }, function(d) {
                     $("#liAdresa").empty();
                     $("#liStatii").empty();
                     $("#liPrize").empty();
                     $("#liStart").empty();
                     $("#liSfarsit").empty();
+                    $("#dataRezervare").val("");
                     alert("Rezervarea a fost realizata!");
                 })
         else

@@ -114,9 +114,20 @@ namespace Statii_Incarcare.Controllers
             }
             return Json(list);
         }
-        public JsonResult CreareRezervare(string oras,string adresa,string priza,string data,string oi,string of)
+        public JsonResult CreareRezervare(string priza,string data,string oi,string of,string masina)
         {
-            Console.WriteLine(oras + " " + adresa + " " + priza + " " + data + " " + oi + ":00" +" "+ of + ":00");
+           // Console.WriteLine(oras + " " + adresa + " " + priza + " " + data + " " + oi + ":00" +" "+ of + ":00");
+            var userId = HttpContext.Request.Cookies["user_id"];
+            Rezervari x = new Rezervari();
+            x.BookingId = new Guid();
+            x.UtilizatorId = new Guid(HttpContext.Request.Cookies["user_id"]);
+            x.NrMasina = masina;
+            var d = data.Split('-');
+            x.StartTime = new DateTime(Int32.Parse(d[0]), Int32.Parse(d[1]), Int32.Parse(d[2]), Int32.Parse(oi), 0, 0);
+            x.EndTime = new DateTime(Int32.Parse(d[0]), Int32.Parse(d[1]), Int32.Parse(d[2]), Int32.Parse(of), 0, 0);
+            x.PrizaId = Int32.Parse(priza);
+            _context.Add(x);
+            _context.SaveChanges();
             return Json(null);
         }
 
@@ -130,6 +141,9 @@ namespace Statii_Incarcare.Controllers
         }
         public IActionResult Index()
         {
+            var userId = HttpContext.Request.Cookies["user_id"];
+            if (userId == null)
+                return NotFound();
             List<SelectListItem> items = GetOrase();
             ViewBag.Orase = items;
             return View();

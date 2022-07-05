@@ -60,7 +60,9 @@
 
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.statii.StatieId">Edit</a> |
-    <a asp-action="Index">Back to List</a>|
-    <a asp-action="AddPriza" asp-route-id="@Model?.statii.StatieId">Adaugare Priza</a>
+    <br />
+    <a asp-action="Edit" asp-route-id="@Model?.statii.StatieId" class="btn btn-success">Edit</a>
+    <a asp-action="AddPriza" asp-route-id="@Model?.statii.StatieId" class="btn btn-primary">Adaugare Priza</a> 
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    
 </div>
