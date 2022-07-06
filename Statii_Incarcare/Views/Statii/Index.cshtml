@@ -85,6 +85,7 @@ form.example::after {
                 <a asp-action="Edit" asp-route-id="@item.StatieId" class="btn btn-success" >Edit</a> 
                 <a asp-action="Details" asp-route-id="@item.StatieId" class="btn btn-warning">Details</a> 
                 <a asp-action="Delete" asp-route-id="@item.StatieId" class="btn btn-danger">Delete</a>
+                 <a href="@GetLocation.Locatie(@item)"  class="btn btn-secondary" target="_blank">Maps</a>
             </td>
         </tr>
 }

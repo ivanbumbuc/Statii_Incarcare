@@ -70,7 +70,7 @@ namespace Statii_Incarcare.Controllers
             }
             return Json(list);
         }
-        public JsonResult GetOre(String id)
+        public JsonResult GetOre(String id,string idPriza)
         {
             List<SelectListItem> list = new List<SelectListItem>();
             list.Add(new SelectListItem { Text = "Selectati ora inceput", Value = "-" });
@@ -81,13 +81,26 @@ namespace Statii_Incarcare.Controllers
             {
                 var x = d.StartTime.ToString().Split(' ');
                 var z = d.EndTime.ToString().Split(' ');
-                if (DateComp(x[0],id))
+                if (DateComp(x[0],id) && d.PrizaId==Int32.Parse(idPriza))
                 {
                     var dif1 = x[1].Split(':');
                     var dif2 = z[1].Split(':');
                     for(int i = Int32.Parse(dif1[0]);i<= Int32.Parse(dif2[0]);i++)
                     {
                         st.Remove(i.ToString());
+                    }
+                }
+            }
+            var time = DateTime.Now.ToString("t").Split(':');
+            var dataCurenta = DateTime.Now.ToString().Split(" ");
+            if (DateComp(dataCurenta[0],id))
+            {
+                for (int i = 0; i < Int32.Parse(time[0]); i++)
+                {
+                    if (st.Contains(i.ToString()))
+                    {
+                       // Console.WriteLine(i);
+                       st.Remove(i.ToString());
                     }
                 }
             }
@@ -101,11 +114,26 @@ namespace Statii_Incarcare.Controllers
             }
             return Json(list);
         }
-        public JsonResult GetOreSfarsit()
+
+        public JsonResult GetOreSfarsit(string id,string oraInceput)
         {
             List<SelectListItem> list = new List<SelectListItem>();
             list.Add(new SelectListItem { Text = "Selectati ora de sfarsit", Value = "-" });
-            for(int q=0;q<24;q++)
+            int mini = 24;
+            int oraI = Int32.Parse(oraInceput);
+            foreach (var d in _context.Rezervaris)
+            {
+                var x = d.StartTime.ToString().Split(' ');
+                if (DateComp(x[0], id))
+                {
+                    var dif1 = x[1].Split(':');
+                    if (Int32.Parse(dif1[0])<mini && Int32.Parse(dif1[0])>=oraI)
+                    {
+                        mini = Int32.Parse(dif1[0]);
+                    }
+                }
+            }
+            for (int q=oraI+1;q<=mini;q++)
             {
                 if (q == 0)
                     list.Add(new SelectListItem { Text = "00", Value = q.ToString() });
@@ -134,8 +162,16 @@ namespace Statii_Incarcare.Controllers
         private bool DateComp(string x,string z)
         {
             var y = x.Split('.');
-            var w = x.Split('/');
-            if (y[2] == w[0] && y[1] == w[1] && y[2] == w[0])
+            var w = z.Split('-');
+            if (y[2] == w[0] && y[1] == w[1] && y[0] == w[2])
+                return true;
+            return false;
+        }
+        private bool DateComp2(string x, string z)
+        {
+            var y = x.Split('.');
+            var w = z.Split('-');
+            if (y[1] == w[2] && y[0] == w[1] && y[2] == w[0])
                 return true;
             return false;
         }

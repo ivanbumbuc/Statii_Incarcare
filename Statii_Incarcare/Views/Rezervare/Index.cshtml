@@ -141,7 +141,8 @@ $(function() {
         if ($("#dataRezervare").val() != "") {
             $.getJSON("/Rezervare/GetOre",
             {
-                id: $("#dataRezervare").val()
+                id: $("#dataRezervare").val(),
+                idPriza: $("#liPrize").val()
             }, function(d) {
                 var row = "";
                 $("#liStart").empty();
@@ -160,6 +161,8 @@ $(function() {
     $("#liStart").change(function() {
         $.getJSON("/Rezervare/GetOreSfarsit",
             {
+                id:$("#dataRezervare").val(),
+                oraInceput:$("#liStart").val()
             }, function(d) {
                 var row = "";
                 $("#liSfarsit").empty();
