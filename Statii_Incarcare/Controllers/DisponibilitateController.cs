@@ -16,27 +16,27 @@ namespace Statii_Incarcare.Controllers
         {
             //DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek + 14);
 
-            ViewData["saptamana"] = 0;
+             
             ViewData["prizaId"] = id;
+            NextBackCalendar.zile = 0;
             return View(AfisareRezervari(id,DateTime.Now));
         }
-        public IActionResult BackWeek()
+        public IActionResult BackWeek(int? id)
         {
-            if (ViewData["saptamana"] == null || ViewData["prizaId"]== null)
-                return NotFound();
-            ViewData["saptamana"] = (int)ViewData["saptamana"] - 1;
-            int zile = (int)ViewData["saptamana"];
-            DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek + (zile*7));
-            return View("~/Views/Disponibilitate/Index.cshtml", AfisareRezervari(Int32.Parse(ViewData["prizaId"].ToString()), DateTime.Now));
+            int zile = NextBackCalendar.Back();
+            ViewData["prizaId"] = id;
+            DateTime x=DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek + (zile*7));
+            //Console.WriteLine("-zile= " + zile+" -------- "+x.ToString());
+            return View("Index", AfisareRezervari(id, x));
         }
-        public IActionResult NextWeek()
+        public IActionResult NextWeek(int? id)
         {
-            if (ViewData["saptamana"] == null || ViewData["prizaId"] == null)
-                return NotFound();
-            ViewData["saptamana"] = (int)ViewData["saptamana"] + 1;
-            int zile = (int)ViewData["saptamana"];
-            DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek + (zile * 7));
-            return View("~/Views/Disponibilitate/Index", AfisareRezervari(Int32.Parse(ViewData["prizaId"].ToString()), DateTime.Now));
+            int zile = NextBackCalendar.Next();
+            ViewData["prizaId"] = id;
+            Console.WriteLine("+zile= " + zile);
+            DateTime x=DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek + (zile * 7));
+            //Console.WriteLine("-zile= " + zile + " -------- " + x.ToString());
+            return View("Index", AfisareRezervari(id, x));
         }
 
         private RezervariSaptamana AfisareRezervari(int ? id,DateTime l)

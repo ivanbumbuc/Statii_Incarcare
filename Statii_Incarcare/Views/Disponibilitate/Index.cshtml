@@ -6,8 +6,8 @@
 }
 <link rel="stylesheet" href="~/css/calendar2.css">
 <div style="margin-left:150px;">
- <a asp-action="BackWeek" asp-controller="Disponibilitate" class="btn btn-primary" >Back</a>
-  <a asp-action="NextWeek" asp-controller="Disponibilitate"  class="btn btn-primary" >Next</a>
+ <a asp-action="BackWeek" asp-controller="Disponibilitate" asp-route-id="@ViewData["prizaId"]" class="btn btn-primary" >Back Week</a>
+  <a asp-action="NextWeek" asp-controller="Disponibilitate"  asp-route-id="@ViewData["prizaId"]" class="btn btn-primary" >Next Week</a>
   </div>
 <div class="cd-schedule loading">
 	<div class="timeline">
