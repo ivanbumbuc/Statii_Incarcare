@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	
 	<link rel="stylesheet" href="~/Calendar/css/style.css">
+	<link rel="stylesheet" href="~/css/site.css">
 <h1>Detalii</h1>
 
 <div>
@@ -48,6 +49,9 @@
             <th>
                 Tip
             </th>
+			<th>
+                Disponibilitate Saptamana
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -59,6 +63,9 @@
             </th>
             <th>
                 @Html.DisplayFor(modelItem => item.Tip)
+            </th>
+			<th>
+                 <a asp-action="Index" asp-controller="Disponibilitate"  asp-route-id="@item.NumarPriza" class="btn btn-primary">Disponibilitate</a>
             </th>
         </tr>
 }
@@ -177,10 +184,31 @@
 				</div>
 			</div>
 		</div>
-	</section>
+		<br />
+		<div>
+			<h2 style="margin-left:350px;">Ore disponibile: </h2>
+			<table class="table"  style="margin-left:400px;width: 35%;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;">
+			<thead style="background-color:#04AA6D;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); border-radius: 5px;">
+			<tr>
+            <th>
+                Interval ore
+            </th>
+			<th>
+                Prize
+            </th>
+			</tr>
+			</thead>
+			<tbody id="li2IntervaleT" >
 
+			</tbody>
+			</table>
+		</div>
+	</section>
+	
+	
   <script src="~/Calendar/js/jquery.min.js"></script>
   <script src="~/Calendar/js/popper.js"></script>
   <script src="~/Calendar/js/bootstrap.min.js"></script>
-  <script src="~/Calendar/js/main.js"></script>
+  <script src="~/Calendar/js/JavaScript2.js"></script>
+ 
   

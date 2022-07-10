@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Views\Disponibilitate\Index.cshtml~RF5b6caf4d.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\Calendar\.DS_Store" />
     <None Include="wwwroot\Calendar\css\.DS_Store" />
     <None Include="wwwroot\Calendar\css\bootstrap.min.css" />

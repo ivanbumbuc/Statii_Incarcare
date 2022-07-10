@@ -91,7 +91,14 @@
         o.className = "selected";
         selectedDay = new Date(year, month, o.innerHTML);
         var d = document.getElementById("idStatieVal").value
-		alert(d);
+        alert("aici");
+        $.getJSON("/Statii/GetIntervale",
+            {
+                data: selectedDay.toLocaleDateString(),
+                id: d
+            }, function (d) {
+                alert("aici");
+            })
         this.drawHeader(o.innerHTML);
         this.setCookie('selected_day', 1);
         

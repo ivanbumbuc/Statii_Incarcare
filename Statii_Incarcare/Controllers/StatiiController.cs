@@ -30,6 +30,94 @@ namespace Statii_Incarcare.Controllers
             }
             return View("Index",await _context.Statiis.ToListAsync());
         }
+        private bool DateComp(string x, string z)
+        {
+            var y = x.Split('.');
+            var w = z.Split('/');
+            if (Int32.Parse(y[2]) == Int32.Parse(w[2]) && Int32.Parse(y[1]) == Int32.Parse(w[0]) && Int32.Parse(y[0]) == Int32.Parse(w[1]))
+                return true;
+            return false;
+        }
+        public JsonResult GetIntervale(string data, string id)
+        {
+
+            List<SelectListItem> list = new List<SelectListItem>();
+            List<string> prize = new List<string>();
+            var intervaleTotale = new Dictionary<string, string>();
+            foreach (var f in _context.Prizes)
+            {
+                if (id == f.StatieId.ToString())
+                    prize.Add(f.PrizaId.ToString());
+            }
+            List<string> ore = new List<string>();
+            List<string> intervale = new List<string>();
+            foreach (var g in prize)
+            {
+                foreach(var f in _context.Rezervaris)
+                {
+                    var x = f.StartTime.ToString().Split(' ');
+                    if (DateComp(x[0], data) && f.PrizaId==Int32.Parse(g))
+                    {
+                        var a = f.StartTime.ToString().Split(' ');
+                        var z = f.EndTime.ToString().Split(' ');
+                        var dif1 = x[1].Split(':');
+                        var dif2 = z[1].Split(':');
+                        ore.Add(dif1[0] + "-" + dif2[0]);
+                    }
+                }
+                for(int i=0;i<ore.Count-1;i++)
+                {
+                    for(int j=i+1;j<ore.Count;j++)
+                    {
+                        var r = ore[i].Split('-');
+                        var r2 = ore[j].Split('-');
+                        if (Int32.Parse(r[0]) > Int32.Parse(r2[0]))
+                        {
+                            var q = ore[i];
+                            ore[i] = ore[j];
+                            ore[j] = q;
+                        }
+                    }
+                }
+                
+                    int n = 0;
+                string last = "";
+                    for (int h = 0; h < ore.Count; h++)
+                    {
+                    if(intervale.Count>0)
+                        last = intervale[intervale.Count - 1];
+                        var k = ore[h].Split('-');
+                        if (n != Int32.Parse(k[0]) && (n + "-" + k[0]) != last)
+                        {
+                            intervale.Add(n + "-" + k[0]);
+                        }
+                        n = Int32.Parse(k[1]);
+                    }
+                if (n != 24)
+                    intervale.Add(n + "-" + 24);
+                foreach (var h in intervale)
+                {
+                    if (intervaleTotale.ContainsKey(h))
+                    {
+                        intervaleTotale[h] = intervaleTotale[h] + ", " + g;
+                    }
+                    else
+                        intervaleTotale.Add(h, g);
+                }
+                intervale.Clear();
+                if(ore.Count>0)
+                    ore.Clear();
+
+            }
+            for(int i=0;i<intervaleTotale.Count;i++)
+            {
+                //Console.WriteLine(intervaleTotale.ElementAt(i).Key + "-------" + intervaleTotale.ElementAt(i).Value);
+                list.Add(new SelectListItem { Text = intervaleTotale.ElementAt(i).Key, Value =intervaleTotale.ElementAt(i).Value });
+            }
+            
+            return Json(list);
+        } 
+
 
         private bool Verificare()
         {
