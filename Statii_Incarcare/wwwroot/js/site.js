@@ -68,11 +68,22 @@
 			//create the .event-date element for each event
 			var durationLabel = '<span class="event-date">' + $(this).data('start') + ' - ' + $(this).data('end') + '</span>';
 			$(this).children('a').prepend($(durationLabel));
-
+			var oraInceput = $(this).data('start');
+			var oraSfarsit = $(this).data('end');
+			var data = $(this).data('d');
+			var masina = $(this).data('masina');
 			//detect click on the event and open the modal
 			$(this).on('click', 'a', function (event) {
+
+
+				
+				alert(oraInceput + " " + oraSfarsit + " " + data + " " + masina);
+				$("#id1Masina").val(masina);
 				event.preventDefault();
-				if (!self.animating) self.openModal($(this));
+				if (!self.animating) {
+					self.openModal($(this));
+					debugger;
+				}
 			});
 		});
 
@@ -85,7 +96,7 @@
 			if (!self.animating && self.element.hasClass('modal-is-open')) self.closeModal(self.eventsGroup.find('.selected-event'));
 		});
 	};
-
+	
 	SchedulePlan.prototype.placeEvents = function () {
 		var self = this;
 		this.singleEvents.each(function () {
@@ -193,6 +204,7 @@
 
 		//if browser do not support transitions -> no need to wait for the end of it
 		if (!transitionsSupported) self.modal.add(self.modalHeaderBg).trigger(transitionEnd);
+
 	};
 
 	SchedulePlan.prototype.closeModal = function (event) {

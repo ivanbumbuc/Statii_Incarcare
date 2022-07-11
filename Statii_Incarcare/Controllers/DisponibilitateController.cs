@@ -42,7 +42,13 @@ namespace Statii_Incarcare.Controllers
         private RezervariSaptamana AfisareRezervari(int ? id,DateTime l)
         {
             RezervariSaptamana x = new RezervariSaptamana();
+            x.dateZile = new List<string>();
             var luni = StartOfWeek(l, DayOfWeek.Sunday);
+            for(int i=1;i<=7;i++)
+            {
+                DateTime f=luni.AddDays(-(int)DateTime.Now.DayOfWeek +i);
+                x.dateZile.Add(f.ToString("dd/MM/yyyy"));
+            }
             foreach (var d in _context.Rezervaris)
             {
                 if (d.PrizaId == id)

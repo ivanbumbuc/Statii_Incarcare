@@ -11,5 +11,6 @@
         public List<DisponibilitateSaptamana> sambata = new List<DisponibilitateSaptamana>();
         public List<DisponibilitateSaptamana> duminica = new List<DisponibilitateSaptamana>();
 
+        public List<String> dateZile;
     }
 }
