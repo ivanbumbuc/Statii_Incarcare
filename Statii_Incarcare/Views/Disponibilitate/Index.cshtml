@@ -3,7 +3,7 @@
     ViewData["Title"] = "Statii";
     Layout = "_Layout";
 }
-<input value="rr" id="id1Masina" hidden=true/>
+<input value="rr" id="id1Masina" hidden=true />
 <link rel="stylesheet" href="~/css/calendar2.css">
 <div style="margin-left:150px;">
     <a asp-action="BackWeek" asp-controller="Disponibilitate" asp-route-id="@ViewData["prizaId"]" class="btn btn-primary">Back Week</a>
@@ -31,11 +31,11 @@
                         int z6 = 1;
                         foreach (var s in Model.duminica)
                         {
-                                            <li class="single-event" data-masina="@s.rezerrvare.NrMasina" data-d="@Model.dateZile[0]" data-start="@s.oraInceput" data-end="@s.oraSfarsit" data-content="event-abs-circuit" data-event="event-@z6">
-                                                <a href="#0">
-                                                    <em class="event-name" style="font-size:12px;">@s.rezerrvare.NrMasina</em>
-                                                </a>
-                                            </li>
+                            <li class="single-event" data-masina="@s.rezerrvare.NrMasina" data-d="@Model.dateZile[0]" data-start="@s.oraInceput" data-end="@s.oraSfarsit" data-content="event-abs-circuit" data-event="event-@z6">
+                                <a href="#0">
+                                    <em class="event-name" style="font-size:12px;">@s.rezerrvare.NrMasina</em>
+                                </a>
+                            </li>
                             z6++;
                             if (z6 == 5)
                                 z6 = 1;
@@ -52,11 +52,11 @@
                         foreach (var s in Model.luni)
                         {
 
-                                            <li class="single-event" data-masina="@s.rezerrvare.NrMasina" data-d="@Model.dateZile[1]" data-start="@s.oraInceput"  data-end="@s.oraSfarsit" data-content="event-abs-circuit" data-event="event-@z">
-                                                <a href="#0">
-                                                    <em class="event-name" style="font-size:12px;">@s.rezerrvare.NrMasina</em>
-                                                </a>
-                                            </li>
+                            <li class="single-event" data-masina="@s.rezerrvare.NrMasina" data-d="@Model.dateZile[1]" data-start="@s.oraInceput" data-end="@s.oraSfarsit" data-content="event-abs-circuit" data-event="event-@z">
+                                <a href="#0">
+                                    <em class="event-name" style="font-size:12px;">@s.rezerrvare.NrMasina</em>
+                                </a>
+                            </li>
                             z++;
                             if (z == 5)
                                 z = 1;
@@ -73,11 +73,11 @@
                         int z1 = 1;
                         foreach (var s in Model.marti)
                         {
-                                            <li class="single-event" data-masina="@s.rezerrvare.NrMasina" data-d="@Model.dateZile[2]" data-start="@s.oraInceput" data-end="@s.oraSfarsit" data-content="event-abs-circuit" data-event="event-@z1">
-                                                <a href="#0">
-                                                    <em class="event-name" style="font-size:12px;">@s.rezerrvare.NrMasina</em>
-                                                </a>
-                                            </li>
+                            <li class="single-event" data-masina="@s.rezerrvare.NrMasina" data-d="@Model.dateZile[2]" data-start="@s.oraInceput" data-end="@s.oraSfarsit" data-content="event-abs-circuit" data-event="event-@z1">
+                                <a href="#0">
+                                    <em class="event-name" style="font-size:12px;">@s.rezerrvare.NrMasina</em>
+                                </a>
+                            </li>
                             z1++;
                             if (z1 == 5)
                                 z1 = 1;
@@ -94,11 +94,11 @@
                         int z2 = 1;
                         foreach (var s in Model.miercuri)
                         {
-                                            <li class="single-event" data-masina="@s.rezerrvare.NrMasina" data-d="@Model.dateZile[3]" data-start="@s.oraInceput" data-end="@s.oraSfarsit" data-content="event-abs-circuit" data-event="event-@z2">
-                                                <a href="#0">
-                                                    <em class="event-name" style="font-size:12px;">@s.rezerrvare.NrMasina</em>
-                                                </a>
-                                            </li>
+                            <li class="single-event" data-masina="@s.rezerrvare.NrMasina" data-d="@Model.dateZile[3]" data-start="@s.oraInceput" data-end="@s.oraSfarsit" data-content="event-abs-circuit" data-event="event-@z2">
+                                <a href="#0">
+                                    <em class="event-name" style="font-size:12px;">@s.rezerrvare.NrMasina</em>
+                                </a>
+                            </li>
                             z2++;
                             if (z2 == 5)
                                 z2 = 1;
@@ -115,11 +115,11 @@
                         int z3 = 1;
                         foreach (var s in Model.joi)
                         {
-                                            <li class="single-event" data-masina="@s.rezerrvare.NrMasina" data-d="@Model.dateZile[4]" data-start="@s.oraInceput" data-end="@s.oraSfarsit" data-content="event-abs-circuit" data-event="event-@z3">
-                                                <a href="#0">
-                                                    <em class="event-name" style="font-size:12px;">@s.rezerrvare.NrMasina</em>
-                                                </a>
-                                            </li>
+                            <li class="single-event" data-masina="@s.rezerrvare.NrMasina" data-d="@Model.dateZile[4]" data-start="@s.oraInceput" data-end="@s.oraSfarsit" data-content="event-abs-circuit" data-event="event-@z3">
+                                <a href="#0">
+                                    <em class="event-name" style="font-size:12px;">@s.rezerrvare.NrMasina</em>
+                                </a>
+                            </li>
                             z3++;
                             if (z3 == 5)
                                 z3 = 1;
@@ -137,11 +137,11 @@
                         int z4 = 1;
                         foreach (var s in Model.vineri)
                         {
-                                            <li class="single-event" data-masina="@s.rezerrvare.NrMasina" data-d="@Model.dateZile[5]" data-start="@s.oraInceput" data-end="@s.oraSfarsit" data-content="event-abs-circuit" data-event="event-@z4">
-                                                <a href="#0">
-                                                    <em class="event-name" style="font-size:12px;">@s.rezerrvare.NrMasina</em>
-                                                </a>
-                                            </li>
+                            <li class="single-event" data-masina="@s.rezerrvare.NrMasina" data-d="@Model.dateZile[5]" data-start="@s.oraInceput" data-end="@s.oraSfarsit" data-content="event-abs-circuit" data-event="event-@z4">
+                                <a href="#0">
+                                    <em class="event-name" style="font-size:12px;">@s.rezerrvare.NrMasina</em>
+                                </a>
+                            </li>
                             z4++;
                             if (z4 == 5)
                                 z4 = 1;
@@ -158,11 +158,11 @@
                         int z5 = 1;
                         foreach (var s in Model.sambata)
                         {
-                                            <li class="single-event" data-masina="@s.rezerrvare.NrMasina" data-d="@Model.dateZile[6]" data-start="@s.oraInceput" data-end="@s.oraSfarsit" data-content="event-abs-circuit" data-event="event-@z5">
-                                                <a href="#0">
-                                                    <em class="event-name" style="font-size:12px;">@s.rezerrvare.NrMasina</em>
-                                                </a>
-                                            </li>
+                            <li class="single-event" data-masina="@s.rezerrvare.NrMasina" data-d="@Model.dateZile[6]" data-start="@s.oraInceput" data-end="@s.oraSfarsit" data-content="event-abs-circuit" data-event="event-@z5">
+                                <a href="#0">
+                                    <em class="event-name" style="font-size:12px;">@s.rezerrvare.NrMasina</em>
+                                </a>
+                            </li>
                             z5++;
                             if (z5 == 5)
                                 z5 = 1;
@@ -187,24 +187,7 @@
         </header>
 
         <div class="body">
-            <div class="event-info" >
-                <form style="margin-left:30px;">
-                    <div class="form-group">
-                        <label class="control-label">Numar Masina</label>
-                        <input value="" id="idMasina" class="form-control" style="width:30%;" />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Start Ora</label>
-                        <select style="width:30%;" id="liStart" class="form-control" asp-items="@(new SelectList(string.Empty, "Value", "Text"))"></select>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">End Ora</label>
-                        <select style="width:30%;" id="liSfarsit" class="form-control" asp-items="@(new SelectList(string.Empty, "Value", "Text"))"></select>
-                    </div>
-                    <br />
-                    <button type="button" class="btn btn-primary" style="margin-left:60px;" onclick="rezerva()">Editeaza</button>
-
-                </form>
+            <div class="event-info" style="margin-left:30px;">
             </div>
             <div class="body-bg"></div>
         </div>
@@ -216,7 +199,12 @@
     <div class="cover-layer"></div>
 </div> <!-- .cd-schedule -->
 <script>
-$("#idMasina").click(function() {
-    alert("dada");
-});
+
+function editare() {
+        //alert($("#nrMasina").val());
+        $("#liStart").click(function() {
+            var row = "<option value=" + "ana" + ">" + "maria" + "</option>";
+			$("#liPrize").html(row);
+        });
+    }
 </script>

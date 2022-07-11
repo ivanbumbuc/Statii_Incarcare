@@ -71,18 +71,24 @@
 			var oraInceput = $(this).data('start');
 			var oraSfarsit = $(this).data('end');
 			var data = $(this).data('d');
-			var masina = $(this).data('masina');
+			const masina = $(this).data('masina');
 			//detect click on the event and open the modal
 			$(this).on('click', 'a', function (event) {
-
-
-				
-				alert(oraInceput + " " + oraSfarsit + " " + data + " " + masina);
-				$("#id1Masina").val(masina);
+				//alert(oraInceput + " " + oraSfarsit + " " + data + " " + masina);
 				event.preventDefault();
 				if (!self.animating) {
-					self.openModal($(this));
-					debugger;
+					self.openModal($(this),masina);
+					/*waitForElm('.body').then((elm) => {
+						console.log('Element is ready');
+						const collection = document.getElementsByClassName("event-info");
+						console.log(document.getElementById("idnrMasina").value);
+						self.openModal($(this));
+						$("#idnrMasina").click(function () {
+							alert("nimic");
+							location.reload();
+						});
+						
+					});*/
 				}
 			});
 		});
@@ -96,6 +102,25 @@
 			if (!self.animating && self.element.hasClass('modal-is-open')) self.closeModal(self.eventsGroup.find('.selected-event'));
 		});
 	};
+	function waitForElm(selector) {
+		return new Promise(resolve => {
+			if (document.querySelector(selector)) {
+				return resolve(document.querySelector(selector));
+			}
+
+			const observer = new MutationObserver(mutations => {
+				if (document.querySelector(selector)) {
+					resolve(document.querySelector(selector));
+					observer.disconnect();
+				}
+			});
+
+			observer.observe(document.body, {
+				childList: true,
+				subtree: true
+			});
+		});
+	}
 	
 	SchedulePlan.prototype.placeEvents = function () {
 		var self = this;
@@ -116,7 +141,7 @@
 		this.element.removeClass('loading');
 	};
 
-	SchedulePlan.prototype.openModal = function (event) {
+	SchedulePlan.prototype.openModal = function (event,x) {
 		var self = this;
 		var mq = self.mq();
 		this.animating = true;
@@ -126,9 +151,24 @@
 		this.modalHeader.find('.event-date').text(event.find('.event-date').text());
 		this.modal.attr('data-event', event.parent().attr('data-event'));
 
+		this.modalHeader.find('.event-date').text(event.find('.event-date').text());
 		//update event content
 		this.modalBody.find('.event-info').load(event.parent().attr('data-content') + '.html .event-info > *', function (data) {
 			//once the event content has been loaded
+			console.log(x);
+			$(".event-info").html(
+				"<label>Numar Masina</label>" + "<br/>" +
+				"<input id=\"nrMasina\" value=\"" + x + "\"/>" + "<br/>" +
+				"<label>Start Time</label>" + "<br/>" +
+				" <select id=\"liStart\" class=\"form-control\" asp-items=\"@(new SelectList(string.Empty, \"Value\", \"Text\")) \"></select>"
+				+"<br/>"+
+				"<button type=\"button\" class=\"btn btn-primary\" style=\"margin-left:60px;\" onclick=\"editare()\" >Editeaza</button>"
+
+
+			);
+			editare();
+			var row = "<option value=" + "ana" + ">" + "maria" + "</option>";
+			$("#liPrize").html(row);
 			self.element.addClass('content-loaded');
 		});
 
@@ -204,8 +244,9 @@
 
 		//if browser do not support transitions -> no need to wait for the end of it
 		if (!transitionsSupported) self.modal.add(self.modalHeaderBg).trigger(transitionEnd);
-
+		//alert("suntem la openmodal!" + $("#id1Masina").val()+" "+$("#nrMasina").val());
 	};
+	
 
 	SchedulePlan.prototype.closeModal = function (event) {
 		var self = this;
@@ -263,7 +304,6 @@
 				event.removeClass('selected-event');
 			});
 		}
-
 		//browser do not support transitions -> no need to wait for the end of it
 		if (!transitionsSupported) self.modal.add(self.modalHeaderBg).trigger(transitionEnd);
 	}
