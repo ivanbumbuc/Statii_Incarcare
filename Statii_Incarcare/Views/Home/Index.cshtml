@@ -2,7 +2,142 @@
     ViewData["Title"] = "Home Page";
 }
 
+<script>
+
+    <link rel="stylesheet" href = "https://cdn.jsdelivr.net/npm/cdbootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href = "https://cdn.jsdelivr.net/npm/cdbootstrap/css/cdb.min.css" />
+            <script src="https://cdn.jsdelivr.net/npm/cdbootstrap/js/cdb.min.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/cdbootstrap/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/9d1d9a82d2.js" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+<style>
+    .chart-container {
+      width: 100%;
+      height: 100%;
+      margin: auto;
+    }
+</style>
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Ore de rezervare</h1>
+    <div class="form-group">
+        <label class="control-label">Orase</label>
+        <select id="liOras" onchange="schimba()" class="form-control" asp-items="@(new SelectList(ViewBag.O,"Value","Text"))"></select>
+    </div>
+    <div class="form-group">
+
+        <select id="liChart" onchange="schimba()" class="form-control" >
+        <option>bar</option>
+        <option>line</option>
+        <option>doughnut</option>
+        <option>pie</option>
+        </select>
+    </div>
 </div>
+<div class="card chart-container" id="card">
+    <canvas id="chart" style="pointer-events:none;">></canvas>
+</div>
+<script>
+                window.onload = (event) => {
+
+                    $.getJSON("/Home/GetStatii",
+                        {
+                            oras: $("#liOras").val()
+                        },
+                        function(d) {
+                            var orase = [];
+                            var min = [];
+                            var maxi = [];
+                            $.each(d, function(i, v) {
+                                orase.push(v.text);
+                                min.push(v.value.split(",")[0])
+                                maxi.push(v.value.split(",")[1]);
+                            });
+                            for (var i = 0; i < orase.length; i++) {
+                                console.log(orase[i] + " = " + min[i] + " " + maxi[i]);
+                            }
+                            const ctx = document.getElementById("chart").getContext('2d');
+                            const myChart = new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: orase,
+                                    datasets: [{
+                                        label: 'Ora cu cele mai multe rezervari',
+                                        backgroundColor: 'rgba(161, 198, 247, 1)',
+                                        borderColor: 'rgb(47, 128, 237)',
+                                        data: min
+                                    },
+                                    {
+                                        label: 'Ora cu cele mai putine rezervari',
+                                        backgroundColor: 'rgba(171, 138, 247, 1)',
+                                        borderColor: 'rgb(87, 108, 207)',
+                                        data: maxi
+                                    }
+                                    ]
+                                },
+                                options: {
+                                    scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero: true,
+                                            }
+                                        }]
+                                    }
+                                },
+                            });
+                        });
+
+                };
+    
+function schimba()
+{
+     $.getJSON("/Home/GetStatii",
+                        {
+                            oras: $("#liOras").val()
+                        },
+                        function(d) {
+                            
+                            var orase = [];
+                            var min = [];
+                            var maxi = [];
+                            $.each(d, function(i, v) {
+                                orase.push(v.text);
+                                min.push(v.value.split(",")[0])
+                                maxi.push(v.value.split(",")[1]);
+                            });
+                            for (var i = 0; i < orase.length; i++) {
+                                console.log(orase[i] + " = " + min[i] + " " + maxi[i]);
+                            }
+                            const ctx = document.getElementById("chart").getContext('2d');
+                            const myChart = new Chart(ctx, {
+                                type: $("#liChart").val(),
+                                data: {
+                                    labels: orase,
+                                    datasets: [{
+                                        label: 'Ora cu cele mai multe rezervari',
+                                        backgroundColor: 'rgba(161, 198, 247, 1)',
+                                        borderColor: 'rgb(47, 128, 237)',
+                                        data: min
+                                    },
+                                    {
+                                        label: 'Ora cu cele mai putine rezervari',
+                                        backgroundColor: 'rgba(171, 138, 247, 1)',
+                                        borderColor: 'rgb(87, 108, 207)',
+                                        data: maxi
+                                    }
+                                    ]
+                                },
+                                options: {
+                                    scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero: true,
+                                            }
+                                        }]
+                                    }
+                                },
+                            });
+                        });
+
+}
+</script>

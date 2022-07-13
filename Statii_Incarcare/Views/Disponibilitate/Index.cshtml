@@ -3,7 +3,11 @@
     ViewData["Title"] = "Statii";
     Layout = "_Layout";
 }
-<input value="rr" id="id1Masina" hidden=true />
+<input value="@ViewData["prizaId"]" id="prizaId" hidden=true />
+<input value="" id="dataAsc" hidden=true />
+<input value="" id="oraInAsc" hidden=true />
+<input value="" id="oraSfAsc" hidden=true />
+<input value="" id="nrM" hidden=true />
 <link rel="stylesheet" href="~/css/calendar2.css">
 <div style="margin-left:150px;">
     <a asp-action="BackWeek" asp-controller="Disponibilitate" asp-route-id="@ViewData["prizaId"]" class="btn btn-primary">Back Week</a>
@@ -200,11 +204,26 @@
 </div> <!-- .cd-schedule -->
 <script>
 
-function editare() {
-        //alert($("#nrMasina").val());
-        $("#liStart").click(function() {
-            var row = "<option value=" + "ana" + ">" + "maria" + "</option>";
-			$("#liPrize").html(row);
-        });
+    function editare() {
+        if (parseInt($("#liEnd").val()) <= parseInt($("#liStart").val()) || $("#liStart").val() == "-" || $("#liEnd").val() == "-") {
+            alert("Interval invalid, selectati un interval valid!");
+        }
+        else {
+            alert("Modificarile au fost realizate!" + $("#dataAsc").val() + " "
+                + $("#oraInAsc").val() + " " +
+                " " + $("#oraSfAsc").val());
+            $.getJSON("/Disponibilitate/Edit",
+                {
+                    data: $("#dataAsc").val(),
+                    idPriza: $("#prizaId").val(),
+                    oraIn: $("#oraInAsc").val(),
+                    oraFin: $("#oraSfAsc").val(),
+                    nrMasina: $("#nrM").val(),
+                    liS: $("#liStart").val(),
+                    liF: $("#liEnd").val()
+                }, function(d) {
+                    location.reload();
+                });
+            }
     }
 </script>

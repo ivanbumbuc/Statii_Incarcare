@@ -152,7 +152,7 @@ namespace Statii_Incarcare.Controllers
                      ).ToList();
             return d;
         }
-
+       
         // GET: Statii
         public async Task<IActionResult> Index()
         {
