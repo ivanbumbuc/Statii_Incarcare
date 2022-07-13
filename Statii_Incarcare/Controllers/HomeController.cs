@@ -113,5 +113,92 @@ namespace Statii_Incarcare.Controllers
             }
             return Json(list);
         }
+
+        public JsonResult GetS(String oras)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            list.Add(new SelectListItem { Text = "Selectati Statia", Value = "-" });
+            foreach (var d in _context.Statiis)
+            {
+                if (d.Oras == oras)
+                    list.Add(new SelectListItem { Text = d.Nume, Value = d.StatieId.ToString() });
+            }
+            return Json(list);
+        }
+        public JsonResult GetGrafic2(String id)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            list.Add(new SelectListItem { Text = "Selectati Statia", Value = "-" });
+            var prize = new Dictionary<int, int>();
+            foreach (var d in _context.Prizes)
+            {
+                if (d.StatieId == Int32.Parse(id))
+                {
+                    if(!prize.ContainsKey(d.PrizaId))
+                    {
+                        prize[d.PrizaId] = 0;
+                    }
+                    //list.Add(new SelectListItem { Text = d.Nume, Value = d.StatieId.ToString() });
+                }
+            }
+            var zile = new Dictionary<int, int>();
+            for (int i = 0; i < 7; i++)
+                zile[i] = 0;
+            var dataDuminica = StartOfWeek(DateTime.Now, DayOfWeek.Sunday);
+            foreach(var s in _context.Rezervaris)
+            {
+                if (prize.ContainsKey(s.PrizaId.Value)) {
+                    var x = (DateTime)s.StartTime;
+                    if (DatesAreInTheSameWeek(dataDuminica, x))
+                    {
+                        var h = (int)x.DayOfWeek;
+                        if (!zile.ContainsKey(h))
+                        {
+                            zile[h] = 0;
+                        }
+                        else
+                            zile[h] = zile[h] + 1;
+                    }
+                }
+            }
+            for(int i=0;i<7;i++)
+            {
+               list.Add(new SelectListItem { Text = zile.ElementAt(i).Key.ToString(), Value = zile.ElementAt(i).Value.ToString() });
+            }
+            return Json(list);
+        }
+        public JsonResult IsAdmin()
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            var userId = HttpContext.Request.Cookies["user_id"];
+            foreach(var d in _context.Administratorii)
+            {
+                if(d.UtilizatorId.ToString()==userId)
+                {
+                    list.Add(new SelectListItem { Text = "Admin", Value = "true" });
+                }
+                else
+                {
+                    list.Add(new SelectListItem { Text = "Admin", Value = "false" });
+                }
+            }
+            return Json(list);
+        }
+
+        public static bool DatesAreInTheSameWeek(DateTime date1, DateTime date2)
+        {
+            var cal = System.Globalization.DateTimeFormatInfo.CurrentInfo.Calendar;
+            var d1 = date1.Date.AddDays(-1 * (int)cal.GetDayOfWeek(date1));
+            var d2 = date2.Date.AddDays(-1 * (int)cal.GetDayOfWeek(date2));
+
+            return d1 == d2;
+        }
+
+        public static DateTime StartOfWeek(DateTime dt, DayOfWeek startOfWeek)
+        {
+            int diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
+            return dt.AddDays(-1 * diff).Date;
+        }
+
     }
 }

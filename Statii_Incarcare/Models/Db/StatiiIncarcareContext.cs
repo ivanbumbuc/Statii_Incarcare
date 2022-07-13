@@ -19,6 +19,8 @@ namespace Statii_Incarcare.Models.Db
         public virtual DbSet<Tip> Tips { get; set; } = null!;
         public virtual DbSet<Utilizatori> Utilizatoris { get; set; } = null!;
 
+        public virtual DbSet<Administratorii> Administratorii { get; set; } = null!;
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -111,6 +113,9 @@ namespace Statii_Incarcare.Models.Db
 
                 entity.Property(e => e.Parola).HasMaxLength(100);
             });
+            modelBuilder.Entity<Administratorii>(entity =>
+            { entity.Property(e => e.UtilizatorId).ValueGeneratedNever(); }
+            );
 
             OnModelCreatingPartial(modelBuilder);
         }
