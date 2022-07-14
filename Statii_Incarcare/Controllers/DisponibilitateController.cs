@@ -186,7 +186,7 @@ namespace Statii_Incarcare.Controllers
                            // x.EndTime = new DateTime(Int32.Parse(f[2]), Int32.Parse(f[1]), Int32.Parse(f[0]), Int32.Parse(liF), 0, 0);
                            // x.Priza = d.Priza;
                            // x.Utilizator = d.Utilizator;
-                             d.NrMasina = nrMasina; 
+                            d.NrMasina = nrMasina; 
                             d.StartTime = new DateTime(Int32.Parse(f[2]), Int32.Parse(f[1]), Int32.Parse(f[0]), Int32.Parse(liS), 0, 0);
                             d.EndTime = new DateTime(Int32.Parse(f[2]), Int32.Parse(f[1]), Int32.Parse(f[0]), Int32.Parse(liF), 0, 0);
                             _context.Update(d);

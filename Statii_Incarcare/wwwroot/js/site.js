@@ -204,7 +204,7 @@
                         $("#dataAsc").val(dat);
                         $("#oraInAsc").val(oI);
                         $("#oraSfAsc").val(oF);
-                        $("#nrM").val(x);
+                        $("#nrM").val($("#nrMasina").val());
                     }
                     else
                         $(".event-info").empty();

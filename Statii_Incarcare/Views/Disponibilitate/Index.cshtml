@@ -211,14 +211,14 @@
         else {
             alert("Modificarile au fost realizate!" + $("#dataAsc").val() + " "
                 + $("#oraInAsc").val() + " " +
-                " " + $("#oraSfAsc").val());
+                " " + $("#oraSfAsc").val()+" "+$("#nrMasina").val());
             $.getJSON("/Disponibilitate/Edit",
                 {
                     data: $("#dataAsc").val(),
                     idPriza: $("#prizaId").val(),
                     oraIn: $("#oraInAsc").val(),
                     oraFin: $("#oraSfAsc").val(),
-                    nrMasina: $("#nrM").val(),
+                    nrMasina: $("#nrMasina").val(),
                     liS: $("#liStart").val(),
                     liF: $("#liEnd").val()
                 }, function(d) {
