@@ -306,6 +306,26 @@ namespace Statii_Incarcare.Controllers
             var statii = await _context.Statiis.FindAsync(id);
             if (statii != null)
             {
+                /*List<int> prize = new List<int>();
+                foreach (var f in _context.Prizes)
+                {
+                    if(f.StatieId==id)
+                    prize.Add(f.PrizaId);
+                }
+                foreach(var h in _context.Rezervaris)
+                {
+                    if(prize.Contains(h.PrizaId.Value))
+                    {
+                        Console.WriteLine(h.PrizaId);
+                        //_context.Remove(h);
+                    }
+                }
+                foreach(var g in _context.Prizes)
+                {
+                    if (prize.Contains(g.PrizaId))
+                        Console.WriteLine(g.PrizaId);
+                        //_context.Remove(g);
+                }*/
                 _context.Statiis.Remove(statii);
             }
 

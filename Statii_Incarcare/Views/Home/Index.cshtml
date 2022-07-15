@@ -1,6 +1,15 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<style>
+    #demotext {
+color: #444444;
+background: #FFFFFF;
+text-shadow: 1px 0px 1px #CCCCCC, 0px 1px 1px #EEEEEE, 2px 1px 1px #CCCCCC, 1px 2px 1px #EEEEEE, 3px 2px 1px #CCCCCC, 2px 3px 1px #EEEEEE, 4px 3px 1px #CCCCCC, 3px 4px 1px #EEEEEE, 5px 4px 1px #CCCCCC, 4px 5px 1px #EEEEEE, 6px 5px 1px #CCCCCC, 5px 6px 1px #EEEEEE, 7px 6px 1px #CCCCCC;
+color: #444444;
+background: #FFFFFF;
+}
+</style>
 
 <script>
 
@@ -18,15 +27,18 @@
       margin: auto;
     }
 </style>
-<div class="text-center">
-    <h1 class="display-4">Ore de rezervare</h1>
+<div >
+    <h1  class="text-center"  id="demotext">Ore de rezervare</h1>
+    <br />
+    <label>Oras</label>
     <div class="form-group">
 
-        <select id="liOras" onchange="schimba()" class="form-control" asp-items="@(new SelectList(ViewBag.O,"Value","Text"))"></select>
+        <select id="liOras" style="width:15%;" onchange="schimba()" class="form-control" asp-items="@(new SelectList(ViewBag.O,"Value","Text"))"></select>
     </div>
+    <label>Tipul de grafic</label>
     <div class="form-group">
 
-        <select id="liChart" onchange="schimba()" class="form-control">
+        <select id="liChart" onchange="schimba()" style="width:15%;" class="form-control">
             <option>bar</option>
             <option>line</option>
             <option>doughnut</option>
@@ -34,37 +46,38 @@
         </select>
     </div>
 </div>
-<div class="card chart-container" id="card">
+<br />
+<div class="card chart-container" id="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); border-radius: 5px;">
     <canvas id="chart" style="pointer-events:none;">></canvas>
 </div>
 <br />
 <br />
 <div id="grafic2">
 
-    <h1 class="display-4">Numar de rezervari</h1>
+    <h1  class="text-center" id="demotext">Numar de rezervari</h1>
     <br />
+    <label>Oras</label>
     <div class="form-group">
 
-        <select id="liOras2" onchange="genereazaStatii()" class="form-control" asp-items="@(new SelectList(ViewBag.O,"Value","Text"))"></select>
+        <select id="liOras2" style="width:15%;" onchange="genereazaStatii()" class="form-control" asp-items="@(new SelectList(ViewBag.O,"Value","Text"))"></select>
     </div>
-
+    <label>Statie</label>
     <div class="form-group">
 
-        <select id="liStatii" onchange="" class="form-control" asp-items="@(new SelectList(string.Empty,"Value","Text"))"></select>
+        <select id="liStatii" style="width:15%;" onchange="genereazaGrafic2()" class="form-control" asp-items="@(new SelectList(string.Empty,"Value","Text"))"></select>
     </div>
-
+    <label>Tipul de grafic</label>
     <div class="form-group">
 
-        <select id="liChart2" onchange="genereazaGrafic2()" class="form-control">
-            <option>Selectati tipul de grafic</option>
+        <select id="liChart2" style="width:15%;" onchange="genereazaGrafic2()" class="form-control">
             <option>bar</option>
             <option>line</option>
             <option>doughnut</option>
             <option>pie</option>
         </select>
     </div>
-
-    <div class="card chart-container" id="card">
+    <br />
+    <div class="card chart-container" id="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); border-radius: 5px;">
     <canvas id="chart2" style="pointer-events:none;">></canvas>
 </div>
 
@@ -150,13 +163,13 @@ function genereazaGrafic2() {
                     data: {
                         labels: orase,
                         datasets: [{
-                            label: 'Ora cu cele mai multe rezervari',
+                            label: 'Ora cu cele mai putine rezervari',
                             backgroundColor: 'rgba(161, 198, 247, 1)',
                             borderColor: 'rgb(47, 128, 237)',
                             data: min
                         },
                         {
-                            label: 'Ora cu cele mai putine rezervari',
+                            label: 'Ora cu cele mai multe rezervari',
                             backgroundColor: 'rgba(171, 138, 247, 1)',
                             borderColor: 'rgb(87, 108, 207)',
                             data: maxi
@@ -209,13 +222,13 @@ function genereazaGrafic2() {
                     data: {
                         labels: orase,
                         datasets: [{
-                            label: 'Ora cu cele mai multe rezervari',
+                            label: 'Ora cu cele mai putine rezervari',
                             backgroundColor: 'rgba(161, 198, 247, 1)',
                             borderColor: 'rgb(47, 128, 237)',
                             data: min
                         },
                         {
-                            label: 'Ora cu cele mai putine rezervari',
+                            label: 'Ora cu cele mai multe rezervari',
                             backgroundColor: 'rgba(171, 138, 247, 1)',
                             borderColor: 'rgb(87, 108, 207)',
                             data: maxi

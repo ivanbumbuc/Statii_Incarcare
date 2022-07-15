@@ -75,7 +75,7 @@ namespace Statii_Incarcare.Controllers
             List<SelectListItem> list = new List<SelectListItem>();
             list.Add(new SelectListItem { Text = "Selectati ora inceput", Value = "-" });
             List<string> st = new List<string>();
-            for (int i = 1; i < 24; i++)
+            for (int i = 0; i < 24; i++)
                 st.Add(i.ToString());
             foreach (var d in _context.Rezervaris)
             {
@@ -85,7 +85,7 @@ namespace Statii_Incarcare.Controllers
                 {
                     var dif1 = x[1].Split(':');
                     var dif2 = z[1].Split(':');
-                    for (int i = Int32.Parse(dif1[0]); i <= Int32.Parse(dif2[0]); i++)
+                    for (int i = Int32.Parse(dif1[0]); i < Int32.Parse(dif2[0]); i++)
                     {
                         st.Remove(i.ToString());
                     }
@@ -115,7 +115,7 @@ namespace Statii_Incarcare.Controllers
             return Json(list);
         }
 
-        public JsonResult GetOreSfarsit(string id, string oraInceput)
+        public JsonResult GetOreSfarsit(string id, string oraInceput,string idPriza)
         {
             List<SelectListItem> list = new List<SelectListItem>();
             list.Add(new SelectListItem { Text = "Selectati ora de sfarsit", Value = "-" });
@@ -124,7 +124,7 @@ namespace Statii_Incarcare.Controllers
             foreach (var d in _context.Rezervaris)
             {
                 var x = d.StartTime.ToString().Split(' ');
-                if (DateComp(x[0], id))
+                if (DateComp(x[0], id) && d.PrizaId == Int32.Parse(idPriza))
                 {
                     var dif1 = x[1].Split(':');
                     if (Int32.Parse(dif1[0]) < mini && Int32.Parse(dif1[0]) >= oraI)
@@ -152,7 +152,10 @@ namespace Statii_Incarcare.Controllers
             x.NrMasina = masina;
             var d = data.Split('-');
             x.StartTime = new DateTime(Int32.Parse(d[0]), Int32.Parse(d[1]), Int32.Parse(d[2]), Int32.Parse(oi), 0, 0);
-            x.EndTime = new DateTime(Int32.Parse(d[0]), Int32.Parse(d[1]), Int32.Parse(d[2]), Int32.Parse(of), 0, 0);
+            if(Int32.Parse(of)==24)
+                x.EndTime = new DateTime(Int32.Parse(d[0]), Int32.Parse(d[1]), Int32.Parse(d[2]), 23, 59, 59);
+            else
+                x.EndTime = new DateTime(Int32.Parse(d[0]), Int32.Parse(d[1]), Int32.Parse(d[2]), Int32.Parse(of), 0, 0);
             x.PrizaId = Int32.Parse(priza);
             _context.Add(x);
             _context.SaveChanges();
@@ -163,7 +166,7 @@ namespace Statii_Incarcare.Controllers
         {
             var y = x.Split('.');
             var w = z.Split('-');
-            if (y[2] == w[0] && y[1] == w[1] && y[0] == w[2])
+            if (Int32.Parse(y[2]) == Int32.Parse(w[0]) && Int32.Parse(y[1]) == Int32.Parse(w[1]) && Int32.Parse(y[0]) == Int32.Parse(w[2]))
                 return true;
             return false;
         }
@@ -171,7 +174,7 @@ namespace Statii_Incarcare.Controllers
         {
             var y = x.Split('.');
             var w = z.Split('-');
-            if (y[1] == w[2] && y[0] == w[1] && y[2] == w[0])
+            if (Int32.Parse(y[1]) == Int32.Parse(w[2]) && Int32.Parse(y[0]) == Int32.Parse(w[1]) && Int32.Parse(y[2]) == Int32.Parse(w[0]))
                 return true;
             return false;
         }

@@ -98,12 +98,12 @@ namespace Statii_Incarcare.Controllers
                 var max2 = oraMin.ElementAt(0).Value;
                 for (int p=0;p<oraMin.Count;p++)
                 {
-                    if(oraMin.ElementAt(p).Value<min2)
+                    if(oraMin.ElementAt(p).Value<=min2)
                     {
                         min2 = oraMin.ElementAt(p).Value;
                         min1 = oraMin.ElementAt(p).Key;
                     }
-                    if(oraMin.ElementAt(p).Value>max2)
+                    if(oraMin.ElementAt(p).Value>=max2)
                     {
                         max2 = oraMin.ElementAt(p).Value;
                         max1 = oraMin.ElementAt(p).Key;

@@ -209,9 +209,7 @@
             alert("Interval invalid, selectati un interval valid!");
         }
         else {
-            alert("Modificarile au fost realizate!" + $("#dataAsc").val() + " "
-                + $("#oraInAsc").val() + " " +
-                " " + $("#oraSfAsc").val()+" "+$("#nrMasina").val());
+            alert("Modificarile au fost realizate!");
             $.getJSON("/Disponibilitate/Edit",
                 {
                     data: $("#dataAsc").val(),

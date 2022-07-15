@@ -114,7 +114,7 @@ namespace Statii_Incarcare.Controllers
             List<SelectListItem> list = new List<SelectListItem>();
             list.Add(new SelectListItem { Text = "Selectati ora inceput", Value = "-" });
             List<string> st = new List<string>();
-            for (int i = 1; i < 24; i++)
+            for (int i = 0; i < 24; i++)
                 st.Add(i.ToString());
             foreach (var d in _context.Rezervaris)
             {
@@ -125,7 +125,7 @@ namespace Statii_Incarcare.Controllers
                     var dif1 = x[1].Split(':');
                     var dif2 = z[1].Split(':');
                     if (Int32.Parse(dif1[0]) != Int32.Parse(oraIn.Split(':')[0]) && Int32.Parse(dif2[0]) != Int32.Parse(oraFin.Split(':')[0]))
-                        for (int i = Int32.Parse(dif1[0]); i <= Int32.Parse(dif2[0]); i++)
+                        for (int i = Int32.Parse(dif1[0]); i < Int32.Parse(dif2[0]); i++)
                         {
                             st.Remove(i.ToString());
                         }
@@ -188,7 +188,10 @@ namespace Statii_Incarcare.Controllers
                            // x.Utilizator = d.Utilizator;
                             d.NrMasina = nrMasina; 
                             d.StartTime = new DateTime(Int32.Parse(f[2]), Int32.Parse(f[1]), Int32.Parse(f[0]), Int32.Parse(liS), 0, 0);
-                            d.EndTime = new DateTime(Int32.Parse(f[2]), Int32.Parse(f[1]), Int32.Parse(f[0]), Int32.Parse(liF), 0, 0);
+                            if(Int32.Parse(liF)==24)
+                                d.EndTime = new DateTime(Int32.Parse(f[2]), Int32.Parse(f[1]), Int32.Parse(f[0]), 23, 59, 50);
+                            else
+                                d.EndTime = new DateTime(Int32.Parse(f[2]), Int32.Parse(f[1]), Int32.Parse(f[0]), Int32.Parse(liF), 0, 0);
                             _context.Update(d);
                             
                         }
